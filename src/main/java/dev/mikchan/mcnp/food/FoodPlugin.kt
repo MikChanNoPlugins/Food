@@ -1,18 +1,14 @@
-package dev.mikchan.mcnp.food;
+package dev.mikchan.mcnp.food
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPlugin
 
-@SuppressWarnings("unused")
-public final class FoodPlugin extends JavaPlugin {
-
-    @Override
-    public void onEnable() {
-        // Plugin startup logic
-
+@Suppress("unused")
+class FoodPlugin : JavaPlugin() {
+    override fun onEnable() {
+        logger.info("Enabled")
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+    override fun onDisable() {
+        logger.info("Disabled")
     }
 }

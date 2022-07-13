@@ -1,7 +1,15 @@
 name: MikChanNoFood
 version: '${version}'
-main: dev.mikchan.mcnp.food.Food
-api-version: 1.16
-load: STARTUP
-authors: [ as ]
+
+authors: [ "George Endo (wtlgo / MikChan)" ]
 description: Changed the way food behaves
+website: https://github.com/MikChanNoPlugins
+
+prefix: MCnFood
+main: dev.mikchan.mcnp.food.FoodPlugin
+api-version: 1.16
+
+load: STARTUP
+
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10
