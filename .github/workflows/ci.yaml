@@ -31,7 +31,7 @@ jobs:
         
       - uses: actions/upload-artifact@v3
         with:
-          name: MikChanNoVK-${{ steps.commit.outputs.short }}.zip
+          name: MikChanNoFood-${{ steps.commit.outputs.short }}.zip
           path: |
             build/libs/
             LICENSE.txt
