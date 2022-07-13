@@ -1,0 +1,7 @@
+name: MikChanNoFood
+version: '${version}'
+main: dev.mikchan.mcnp.food.Food
+api-version: 1.16
+load: STARTUP
+authors: [ as ]
+description: Changed the way food behaves
