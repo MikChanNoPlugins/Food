@@ -2,7 +2,7 @@ name: MikChanNoFood
 version: '${version}'
 
 authors: [ "George Endo (wtlgo / MikChan)" ]
-description: Changed the way food behaves
+description: Changes the way food behaves
 website: https://github.com/MikChanNoPlugins
 
 prefix: MCnFood
@@ -10,6 +10,16 @@ main: dev.mikchan.mcnp.food.FoodPlugin
 api-version: 1.16
 
 load: STARTUP
+
+commands:
+  mcn_food:
+    aliases:
+      - food
+    permission: mcn.food.food
+
+permissions:
+  mcn.food.food:
+    default: op
 
 libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10

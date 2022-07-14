@@ -1,0 +1,34 @@
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+
+enabled: true
+
+modifications:
+  - material: SWEET_BERRIES
+
+    food_level: 0
+
+    damage:
+      amount: 2
+      chance: 100
+
+    heal:
+      amount_from: 0
+      amount_to: 0
+      chance: 25
+
+    effects:
+      - effect: CONFUSION
+        amplifier: 2
+        duration_from: 3
+        duration_to: 5
+
+      - effect: HUNGER
+        amplifier_from: 0
+        amplifier_to: 2
+        duration_from: 1
+        duration_to: 10
+        chance: 50
+
+      - effect: POISON
+        duration: 2
