@@ -113,3 +113,10 @@ compileTestKotlin {
 dokkaHtml {
     outputDirectory.set(file("${buildDir}/dokka"))
 }
+
+javadocJar {
+    archiveClassifier.set("javadoc")
+    dependsOn("dokkaHtml")
+    from("$buildDir/dokka")
+}
+
