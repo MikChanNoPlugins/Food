@@ -35,7 +35,7 @@ jobs:
           prerelease: false
           files: |
             LICENSE.txt
-            build/libs/MCnDisableSweetBerries-*.jar
+            build/libs/MCnFood-*.jar
   publish:
     runs-on: ubuntu-latest
 
