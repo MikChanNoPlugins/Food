@@ -2,7 +2,7 @@ name: MikChanNoFood
 version: '${version}'
 
 authors: [ "George Endo (wtlgo / MikChan)" ]
-description: Changes the way food behaves
+description: Gives ability to change the way food behaves.
 website: https://github.com/MikChanNoPlugins
 
 prefix: MCnFood
