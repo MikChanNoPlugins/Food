@@ -32,7 +32,7 @@ internal class Modification(
             }
 
             val foodLevel = RandomIntRange.buildIntRange(
-                mapData["food_level"] as? Int, mapData["food_level"] as? Int, mapData["food_level"] as? Int
+                mapData["food_level_from"] as? Int, mapData["food_level_to"] as? Int, mapData["food_level"] as? Int
             )
 
             val effects =
