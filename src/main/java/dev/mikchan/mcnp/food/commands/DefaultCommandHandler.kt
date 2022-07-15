@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter
 internal class DefaultCommandHandler(private val config: IConfig) : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.size != 1) return false
-        if (!args[0].equals("reload", true)) return false
+        if (!args[0].equals(reloadLiteral, true)) return false
         config.reload()
         sender.sendMessage("${ChatColor.DARK_GREEN}Successfully Reloaded!")
         return true
@@ -21,6 +21,10 @@ internal class DefaultCommandHandler(private val config: IConfig) : CommandExecu
     ): MutableList<String> {
         if (args.size != 1) return mutableListOf()
         if (!"reload".startsWith(args[0], true)) return mutableListOf()
-        return mutableListOf("reload")
+        return mutableListOf(reloadLiteral)
+    }
+
+    companion object {
+        private const val reloadLiteral = "reload"
     }
 }
