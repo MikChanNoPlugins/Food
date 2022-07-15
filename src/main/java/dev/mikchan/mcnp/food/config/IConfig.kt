@@ -1,6 +1,6 @@
 package dev.mikchan.mcnp.food.config
 
-interface IConfig {
+internal interface IConfig {
     val enabled: Boolean
     val modifications: Set<IModification>
 

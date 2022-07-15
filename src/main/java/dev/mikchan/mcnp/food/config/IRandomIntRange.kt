@@ -1,5 +1,5 @@
 package dev.mikchan.mcnp.food.config
 
-interface IRandomIntRange {
+internal interface IRandomIntRange {
     fun getRandom(): Int
 }
