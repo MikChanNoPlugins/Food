@@ -14,7 +14,7 @@ if (hasProperty('buildScan')) {
 }
 
 group = 'dev.mikchan.mcnp'
-version = '1.0.4-alpha'
+version = '1.0.4'
 
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
