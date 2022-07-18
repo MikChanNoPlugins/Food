@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.10'
     id 'org.jetbrains.dokka' version "1.7.10"
     id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 if (hasProperty('buildScan')) {
@@ -13,7 +14,7 @@ if (hasProperty('buildScan')) {
 }
 
 group = 'dev.mikchan.mcnp'
-version = '1.0.3'
+version = '1.0.4-alpha'
 
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
@@ -68,6 +69,12 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    implementation "org.bstats:bstats-bukkit:3.0.0"
+    shadow "org.bstats:bstats-bukkit:3.0.0"
+
+    implementation "org.bstats:bstats-bukkit:3.0.0"
+    shadow "org.bstats:bstats-base:3.0.0"
 }
 
 def targetJavaVersion = 8
@@ -81,6 +88,15 @@ java {
 
     withJavadocJar()
     withSourcesJar()
+}
+
+assemble.dependsOn(shadowJar)
+jar {
+    enabled = false
+    dependsOn(shadowJar {
+        //noinspection GrDeprecatedAPIUsage
+        classifier = null
+    })
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -118,5 +134,14 @@ javadocJar {
     archiveClassifier.set("javadoc")
     dependsOn("dokkaHtml")
     from("$buildDir/dokka")
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('org.bstats:bstats-bukkit'))
+        include(dependency('org.bstats:bstats-base'))
+    }
+
+    relocate "org.bstats", "dev.mikchan.mcnp.food.bstats"
 }
 
