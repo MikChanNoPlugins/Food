@@ -20,10 +20,17 @@ class FoodPlugin : JavaPlugin {
         private const val bStatsId = 15822
     }
 
-    constructor() : super()
+    private val ignoreBStats: Boolean
+
+    constructor() : super() {
+        ignoreBStats = false
+    }
+
     internal constructor(
         loader: JavaPluginLoader, description: PluginDescriptionFile, dataFolder: File, file: File
-    ) : super(loader, description, dataFolder, file)
+    ) : super(loader, description, dataFolder, file) {
+        ignoreBStats = true
+    }
 
     internal val config: IConfig = Config(this)
 
@@ -38,7 +45,9 @@ class FoodPlugin : JavaPlugin {
             serverCommand.tabCompleter = command
         }
 
-        Metrics(this, bStatsId)
+        if (!ignoreBStats) {
+            Metrics(this, bStatsId)
+        }
     }
 
     override fun onDisable() {
