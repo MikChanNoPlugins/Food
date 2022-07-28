@@ -1,14 +1,29 @@
 package dev.mikchan.mcnp.food
 
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class FoodPluginTest {
-    @Test
-    fun sanityTest() {
-        val one = 1
-        val anotherOne = 1
+    lateinit var server: ServerMock
+    lateinit var plugin: FoodPlugin
 
-        assertEquals(2, one + anotherOne, "Should be equal 2")
+    @BeforeTest
+    fun setUp() {
+        server = MockBukkit.mock()
+        plugin = MockBukkit.load(FoodPlugin::class.java)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        MockBukkit.unmock()
+    }
+
+    @Test
+    fun testDefaultConfigValues() {
+        assertEquals(false, plugin.config.enabled, "The plugin should be disabled by default.")
     }
 }
