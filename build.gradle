@@ -19,7 +19,7 @@ tasks.withType(JavaCompile) {
 
 static def determineVersion(String defaultVersion) {
     def envVersion = System.getenv("VERSION")
-    return envVersion == null ? defaultVersion :  envVersion
+    return envVersion == null ? defaultVersion : envVersion
 }
 
 group = "dev.mikchan.mcnp"
@@ -38,11 +38,6 @@ repositories {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
-
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
 }
 
 dependencies {
@@ -54,6 +49,13 @@ dependencies {
 
     implementation "org.bstats:bstats-bukkit:3.0.0"
     shadow "org.bstats:bstats-base:3.0.0"
+
+    testImplementation "com.github.seeseemelk:MockBukkit-v1.19:2.101.1"
+    testImplementation "org.jetbrains.kotlin:kotlin-test"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 def targetJavaVersion = 8
