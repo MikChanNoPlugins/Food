@@ -1,7 +1,6 @@
 plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
-    id 'org.jetbrains.dokka' version "1.7.10"
+    id "java"
+    id "org.jetbrains.kotlin.jvm" version "1.7.10"
     id 'maven-publish'
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
@@ -13,13 +12,18 @@ if (hasProperty('buildScan')) {
     }
 }
 
-group = 'dev.mikchan.mcnp'
-version = '1.0.4'
-
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+static def determineVersion(String defaultVersion) {
+    def envVersion = System.getenv("VERSION")
+    return envVersion == null ? defaultVersion :  envVersion
+}
+
+group = "dev.mikchan.mcnp"
+version = determineVersion("0.0.4")
 
 def localProperties = new Properties()
 def propertiesFile = rootProject.file('local.properties')
@@ -27,39 +31,14 @@ if (propertiesFile.exists()) {
     localProperties.load(new FileInputStream(propertiesFile))
 }
 
-if (file("local.gradle").exists()) {
-    apply from: "local.gradle"
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHub"
-            url = "https://maven.pkg.github.com/MikChanNoPlugins/Food"
-            credentials {
-                username = localProperties['user'] ?: System.getenv("GITHUB_ACTOR")
-                password = localProperties['key'] ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-
-    publications {
-        gpr(MavenPublication) {
-            groupId = group
-            artifactId = 'food'
-            version = version
-
-            from(components.java)
-        }
-    }
-}
-
 repositories {
     mavenCentral()
+
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+
     maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
@@ -86,17 +65,8 @@ java {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
 
-    withJavadocJar()
     withSourcesJar()
-}
-
-assemble.dependsOn(shadowJar)
-jar {
-    enabled = false
-    dependsOn(shadowJar {
-        //noinspection GrDeprecatedAPIUsage
-        classifier = null
-    })
+    withJavadocJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -108,8 +78,8 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
     def props = [version: version]
     inputs.properties props
-    filteringCharset 'UTF-8'
-    filesMatching('plugin.yml') {
+    filteringCharset "UTF-8"
+    filesMatching("plugin.yml") {
         expand props
     }
 }
@@ -126,17 +96,13 @@ compileTestKotlin {
     }
 }
 
-dokkaHtml {
-    outputDirectory.set(file("${buildDir}/dokka"))
-}
-
-javadocJar {
-    archiveClassifier.set("javadoc")
-    dependsOn("dokkaHtml")
-    from("$buildDir/dokka")
+if (file("local.gradle").exists()) {
+    apply from: "local.gradle"
 }
 
 shadowJar {
+    archiveClassifier.set(null)
+
     dependencies {
         include(dependency('org.bstats:bstats-bukkit'))
         include(dependency('org.bstats:bstats-base'))
@@ -145,3 +111,26 @@ shadowJar {
     relocate "org.bstats", "dev.mikchan.mcnp.food.bstats"
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "GitHub"
+            url = "https://maven.pkg.github.com/MikChanNoPlugins/Food"
+            credentials {
+                username = localProperties['user'] ?: System.getenv("GITHUB_ACTOR")
+                password = localProperties['key'] ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        gpr(MavenPublication) {
+            groupId = group
+            artifactId = 'food'
+
+            artifact jar
+            artifact javadocJar
+            artifact sourcesJar
+        }
+    }
+}
