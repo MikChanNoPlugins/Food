@@ -1,4 +1,4 @@
-name: Build CI
+name: CI
 
 on: [ push ]
 
@@ -37,3 +37,11 @@ jobs:
             path: |
               build/libs/
               LICENSE.txt
+
+      -   name: Gradle Test
+          uses: gradle/gradle-build-action@v2
+          with:
+            arguments: test --scan
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            VERSION: dev-${{ steps.commit.outputs.short }}
