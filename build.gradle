@@ -38,6 +38,10 @@ repositories {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+
+    maven {
+        url 'https://repo.papermc.io/repository/maven-public/'
+    }
 }
 
 dependencies {
@@ -59,6 +63,7 @@ test {
 }
 
 def targetJavaVersion = 8
+def targetTestJavaVersion = 17
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -77,6 +82,18 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+compileTestJava {
+    def javaVersion = JavaVersion.toVersion(targetTestJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+compileTestJava.configure {
+    if (targetTestJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetTestJavaVersion
+    }
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
@@ -88,13 +105,13 @@ processResources {
 
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = targetJavaVersion
     }
 }
 
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = targetTestJavaVersion
     }
 }
 
