@@ -6,18 +6,26 @@ import dev.mikchan.mcnp.food.config.IConfig
 import dev.mikchan.mcnp.food.listeners.DefaultListener
 import org.bstats.bukkit.Metrics
 import org.bukkit.event.HandlerList
+import org.bukkit.plugin.PluginDescriptionFile
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.plugin.java.JavaPluginLoader
+import java.io.File
 
 /**
  * The main plugin class.
  */
 @Suppress("unused")
-class FoodPlugin : JavaPlugin() {
+class FoodPlugin : JavaPlugin {
     companion object {
         private const val bStatsId = 15822
     }
 
-    private val config: IConfig = Config(this)
+    constructor() : super()
+    internal constructor(
+        loader: JavaPluginLoader, description: PluginDescriptionFile, dataFolder: File, file: File
+    ) : super(loader, description, dataFolder, file)
+
+    internal val config: IConfig = Config(this)
 
     override fun onEnable() {
         server.pluginManager.registerEvents(DefaultListener(config), this)
