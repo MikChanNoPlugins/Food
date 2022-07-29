@@ -26,11 +26,10 @@ internal class FoodPluginTest {
         assertEquals(false, plugin.config.enabled, "The plugin should be disabled by default.")
     }
 
+    @Ignore
     @Test
-    fun testPlayerEatingSweetBerriesWhileConfigIsDisabled() {
-        assertEquals(false, plugin.config.enabled, "The plugin should be disabled by default.")
-
-        val player = server.addPlayer("Consoomer")
+    fun testEat() {
+        val player = server.addPlayer("FatGum")
         player.foodLevel = 0
         player.saturation = 0f
 
@@ -39,6 +38,7 @@ internal class FoodPluginTest {
         val sweetBerries = ItemStack(Material.SWEET_BERRIES)
         sweetBerries.amount = 1
         player.simulateConsumeItem(sweetBerries)
+        server.scheduler.performOneTick()
 
         assertNotEquals(0, player.foodLevel, "${player.name} should not be hungry.")
     }
